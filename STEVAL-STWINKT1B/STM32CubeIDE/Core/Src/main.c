@@ -150,15 +150,15 @@ int main(void)
   MX_LTDC_Init();
   MX_RTC_Init();
   MX_SAI1_Init();
-  MX_SDMMC1_SD_Init();
-  MX_SPI1_Init();
-  MX_SPI2_Init();
-  MX_SPI3_Init();
-  MX_TIM2_Init();
-  MX_TIM5_Init();
-  MX_USART2_UART_Init();
-  MX_USART3_UART_Init();
-  MX_USB_OTG_FS_PCD_Init();
+  //!!!MX_SDMMC1_SD_Init();
+  //!!!MX_SPI1_Init();
+  //!!!MX_SPI2_Init();
+  //!!!MX_SPI3_Init();
+  //!!!MX_TIM2_Init();
+  //!!!MX_TIM5_Init();
+  //!!!MX_USART2_UART_Init();
+  //!!!MX_USART3_UART_Init();
+  //!!!MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -170,6 +170,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    HAL_GPIO_WritePin(GPIOE, LED1_Pin, GPIO_PIN_SET);
+    HAL_Delay(250);
+    HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_SET);
+    HAL_Delay(250);
+    HAL_GPIO_WritePin(GPIOE, LED1_Pin, GPIO_PIN_RESET);
+    HAL_Delay(250);
+    HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_RESET);
+    HAL_Delay(250);
   }
   /* USER CODE END 3 */
 }
