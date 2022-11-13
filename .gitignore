@@ -1,10 +1,8 @@
 *.o
 *.d
-*.su
 *.launch
 *.elf
 *.map
+*.su
 *.bin
 *.list
-STEVAL-STWINKT1B/STM32CubeIDE/Debug/GaitAnalysis.map
-STEVAL-STWINKT1B/STM32CubeIDE/Debug/Core/Src/main.su
