@@ -178,10 +178,11 @@ int main(void)
     HAL_Delay(250);
 //uint8_t OneByte;
 //GetOneByte(&OneByte);
-printf("H");
-    uint8_t Buf[] = "Hello World!\r\n";
+   printf("Hello Blue World!!!\r\n");
+// Reference: https://youtu.be/pC16Aon4crk
+    //uint8_t Buf[] = "Hello World!\r\n";
     //uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
-    CDC_Transmit_FS( Buf, 14 );
+    //CDC_Transmit_FS( Buf, 14 );
 
   }
   /* USER CODE END 3 */

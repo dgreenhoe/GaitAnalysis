@@ -7,20 +7,21 @@
 #include <stdbool.h>
 #include "io.h"
 #include "main.h"
+#include "usbd_cdc_if.h"
+
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
 //-----------------------------------------------------------------------------
 // \Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_uart.c
+// Reference: https://youtu.be/pC16Aon4crk
 // Reference: https://youtu.be/WnCpPf7u4Xo?t=139
 //-----------------------------------------------------------------------------
 int _write(int file, char *ptr, int len)
 {
-  UART_HandleTypeDef * const Handle   = &huart2;
-  uint8_t *            const TxBuf    = (uint8_t *)ptr;
-  uint16_t             const NumBytes = (uint16_t)len;
-  uint32_t             const Timeout  = 1000;
-  HAL_UART_Transmit( Handle, TxBuf, NumBytes, Timeout );
+  uint8_t * const TxBuf    = (uint8_t *)ptr;
+  uint16_t  const NumBytes = (uint16_t)len;
+  CDC_Transmit_FS( TxBuf, NumBytes );
   return len;
 }
 
