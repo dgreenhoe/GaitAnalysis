@@ -66,7 +66,7 @@ main-build: GaitAnalysis.elf secondary-outputs
 
 # Tool invocations
 GaitAnalysis.elf: $(OBJS) $(USER_OBJS) C:\dan\personal\Repos\GaitAnalysis\STEVAL-STWINKT1B\STM32CubeIDE\STM32L4R9ZIJX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "GaitAnalysis.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\dan\personal\Repos\GaitAnalysis\STEVAL-STWINKT1B\STM32CubeIDE\STM32L4R9ZIJX_FLASH.ld" --specs=nosys.specs -Wl,-Map="GaitAnalysis.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "GaitAnalysis.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\dan\personal\Repos\GaitAnalysis\STEVAL-STWINKT1B\STM32CubeIDE\STM32L4R9ZIJX_FLASH.ld" --specs=nosys.specs -Wl,-Map="GaitAnalysis.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

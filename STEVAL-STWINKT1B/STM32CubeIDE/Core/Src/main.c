@@ -178,8 +178,8 @@ int main(void)
     HAL_Delay(250);
 //uint8_t OneByte;
 //GetOneByte(&OneByte);
-   printf("Hello Blue World!!!\r\n");
-// Reference: https://youtu.be/pC16Aon4crk
+float pi = 3.14159265;
+   printf("Hello Blue World!!! pi = %6.3f\r\n", pi );
     //uint8_t Buf[] = "Hello World!\r\n";
     //uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
     //CDC_Transmit_FS( Buf, 14 );
