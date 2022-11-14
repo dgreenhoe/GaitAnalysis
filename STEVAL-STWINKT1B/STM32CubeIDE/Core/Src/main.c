@@ -22,7 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usb_device.h"
-#include "usbd_cdc_if.h"
+#include "AppMain.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -163,27 +164,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  AppMain();
+
   while (1)
   {
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
-    HAL_GPIO_WritePin(GPIOE, LED1_Pin, GPIO_PIN_SET);
-    HAL_Delay(250);
-    HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_SET);
-    HAL_Delay(250);
-    HAL_GPIO_WritePin(GPIOE, LED1_Pin, GPIO_PIN_RESET);
-    HAL_Delay(250);
-    HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_RESET);
-    HAL_Delay(250);
-//uint8_t OneByte;
-//GetOneByte(&OneByte);
-float pi = 3.14159265;
-   printf("Hello Blue World!!! pi = %6.3f\r\n", pi );
-    //uint8_t Buf[] = "Hello World!\r\n";
-    //uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
-    //CDC_Transmit_FS( Buf, 14 );
-
   }
   /* USER CODE END 3 */
 }

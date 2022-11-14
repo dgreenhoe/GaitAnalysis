@@ -13,6 +13,7 @@ extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
 //-----------------------------------------------------------------------------
+//! \brief Write contents of buffer to com port
 // \Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_uart.c
 // Reference: https://youtu.be/pC16Aon4crk
 // Reference: https://youtu.be/WnCpPf7u4Xo?t=139
@@ -26,7 +27,7 @@ int _write(int file, char *ptr, int len)
 }
 
 //-----------------------------------------------------------------------------
-// \brief Non-blocking get one character
+//! \brief Non-blocking get one character
 // \ref https://www.openstm32.org/forumthread5015
 //-----------------------------------------------------------------------------
 bool GetOneByte(uint8_t * OneByte)
