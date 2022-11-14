@@ -13,16 +13,25 @@ extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
 //-----------------------------------------------------------------------------
-//! \brief Write contents of buffer to com port
-// \Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_uart.c
-// Reference: https://youtu.be/pC16Aon4crk
-// Reference: https://youtu.be/WnCpPf7u4Xo?t=139
+//! \brief Write contents of buffer to COM port
+// References: https://youtu.be/pC16Aon4crk
+//             https://youtu.be/WnCpPf7u4Xo?t=139
 //-----------------------------------------------------------------------------
 int _write(int file, char *ptr, int len)
 {
-  uint8_t * const TxBuf    = (uint8_t *)ptr;
-  uint16_t  const NumBytes = (uint16_t)len;
-  CDC_Transmit_FS( TxBuf, NumBytes );
+  uint8_t * const TxBuf     = (uint8_t *)ptr;
+  uint16_t  const NumBytes  = (uint16_t)len;
+  uint32_t  const TimeOut   = 1000;
+  uint32_t  const TickStart = HAL_GetTick();
+  uint32_t        Ticks     = 0;
+  uint8_t         TxState   = USBD_BUSY;
+
+  while( (TxState==USBD_BUSY) && (Ticks<TimeOut) )
+  {
+    TxState = CDC_Transmit_FS( TxBuf, NumBytes );
+    Ticks = HAL_GetTick() - TickStart;
+  }
+
   return len;
 }
 
