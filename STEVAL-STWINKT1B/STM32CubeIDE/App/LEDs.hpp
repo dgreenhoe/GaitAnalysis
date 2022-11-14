@@ -1,7 +1,6 @@
 //=============================================================================
 //! \author Daniel J. Greenhoe
-//! \file   AppMain.h
-//!         Main application processing header
+//! \file   LEDs.h
+//!         LED control
 //=============================================================================
-void AppMain(void);
-
+void LED_StateMachine(void);
