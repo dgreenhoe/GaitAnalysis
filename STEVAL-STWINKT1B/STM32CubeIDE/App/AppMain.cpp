@@ -23,7 +23,5 @@ void AppMain(void)
   while(1)
   {
     LED_StateMachine();
-    float pi = 3.14159265;
-    printf("Hello your World!!! pi = %6.3f\r\n", pi );
   }
 }
