@@ -39,16 +39,12 @@ int _write(int file, char *ptr, int len)
 //! \brief Non-blocking get one character
 // \ref https://www.openstm32.org/forumthread5015
 //-----------------------------------------------------------------------------
-bool GetOneByte(uint8_t * OneByte)
+bool GetOneByte( uint8_t* OneByte )
 {
   bool ByteReceived = false;
-  UART_HandleTypeDef * const Handle = &huart2;
-  if (__HAL_UART_GET_FLAG( Handle, UART_FLAG_ORE  ) )
-    __HAL_UART_CLEAR_FLAG( Handle, UART_FLAG_ORE  );
-  if (__HAL_UART_GET_FLAG( Handle, UART_FLAG_RXNE ))
-  {
-    *OneByte = Handle->Instance->RDR & 0x1FF;
-    ByteReceived = true;
-  }
+  uint32_t Len = 1;
+  int8_t Status = CDC_Receive_FS( OneByte, &Len );
+  if( Len > 0 ) ByteReceived = true;
+  else          ByteReceived = false;
   return ByteReceived;
 }

@@ -9,7 +9,8 @@ C_SRCS += \
 
 CPP_SRCS += \
 ../App/AppMain.cpp \
-../App/LEDs.cpp 
+../App/LEDs.cpp \
+../App/menu.cpp 
 
 C_DEPS += \
 ./App/io.d 
@@ -17,11 +18,13 @@ C_DEPS += \
 OBJS += \
 ./App/AppMain.o \
 ./App/LEDs.o \
-./App/io.o 
+./App/io.o \
+./App/menu.o 
 
 CPP_DEPS += \
 ./App/AppMain.d \
-./App/LEDs.d 
+./App/LEDs.d \
+./App/menu.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -33,7 +36,7 @@ App/%.o: ../App/%.c App/subdir.mk
 clean: clean-App
 
 clean-App:
-	-$(RM) ./App/AppMain.d ./App/AppMain.o ./App/LEDs.d ./App/LEDs.o ./App/io.d ./App/io.o
+	-$(RM) ./App/AppMain.d ./App/AppMain.o ./App/LEDs.d ./App/LEDs.o ./App/io.d ./App/io.o ./App/menu.d ./App/menu.o
 
 .PHONY: clean-App
 
