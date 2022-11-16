@@ -10,6 +10,7 @@
 #include "menu.hpp"
 
 static char* Number_to_BinaryString( const int Number, char *buf );
+void CDC_Receive_Clear(void);
 
 //-----------------------------------------------------------------------------
 // !\brief Display menu options
@@ -19,17 +20,22 @@ int Menu_Options(void)
   printf("Menu Options:\r\n");
   return 0;
 }
-
+extern uint8_t NewByte, NewByte2;
 //-----------------------------------------------------------------------------
 //! \brief Display menu options
 //-----------------------------------------------------------------------------
 int Menu_Processing( const uint8_t oneChar )
 {
-  switch( oneChar )
+  switch( NewByte2 )
   {
+    case 0: break;
     case 'M':                                    Menu_Options()  ;  break;
-    default :  printf("Char = %02X = %d ('%c')\r\n", oneChar, oneChar, oneChar ); break;
+  //  default :  printf("!!!!Char = %02X = %d ('%c')\r\n", oneChar, oneChar, oneChar ); break;
+    default :  printf("!!!!Char = %02X = %d ('%c')\r\n", NewByte2, NewByte2, NewByte2 ); break;
+
   }
+//CDC_Receive_Clear();
+NewByte2=0;
   return 0;
 }
 

@@ -121,7 +121,8 @@ extern USBD_HandleTypeDef hUsbDeviceFS;
   * @{
   */
 
-static int8_t CDC_Init_FS(void);
+//static int8_t CDC_Init_FS(void);
+int8_t CDC_Init_FS(void);
 static int8_t CDC_DeInit_FS(void);
 static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length);
 //static int8_t CDC_Receive_FS(uint8_t* pbuf, uint32_t *Len);
@@ -149,7 +150,7 @@ USBD_CDC_ItfTypeDef USBD_Interface_fops_FS =
   * @brief  Initializes the CDC media low layer over the FS USB IP
   * @retval USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t CDC_Init_FS(void)
+int8_t CDC_Init_FS(void)
 {
   /* USER CODE BEGIN 3 */
   /* Set Application Buffers */
@@ -259,11 +260,24 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
 //static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
+ extern uint8_t NewByte2;
+
+
 int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+  USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef *)(hUsbDeviceFS.pClassData);
+
+printf("ep0_state=%ld ", hUsbDeviceFS.ep0_state );
+printf("ep0_data_len=%ld ", hUsbDeviceFS.ep0_data_len );
+printf("dev_state=%d ", hUsbDeviceFS.dev_state );
+printf("RxLength=%ld ", hcdc->RxLength);
+printf("RxBuffer=%02X ('%c') ", hcdc->RxBuffer[0], hcdc->RxBuffer[0]);
+printf("\r\n");
+if( hcdc->RxBuffer[0] != 0 ) NewByte2 = hcdc->RxBuffer[0];
+hcdc->RxBuffer[0] = 0;
   return (USBD_OK);
   /* USER CODE END 6 */
 }

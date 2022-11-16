@@ -29,9 +29,10 @@ void AppMain(void)
   while(1)
   {
     bool ByteReceived = GetOneByte( &OneByte );
-    if( ByteReceived )
+    //if( ByteReceived )
       Menu_Processing( OneByte );
     LED_StateMachine();
+    HAL_Delay(1000);
   }
 }
 
