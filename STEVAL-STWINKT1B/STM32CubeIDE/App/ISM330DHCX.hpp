@@ -3,10 +3,11 @@
 //!       6-Axis sensor header
 //! \author Daniel J. Greenhoe
 //=============================================================================
-HAL_StatusTypeDef ISM330DHCX_Init(void);
-SPI_HandleTypeDef* ISM330DHCX_GetHandle(void);
-HAL_StatusTypeDef ISM330DHCX_GetChipID(void);
 
+
+//-----------------------------------------------------------------------------
+// !\brief ISM330DHCX Register Definitions
+//-----------------------------------------------------------------------------
 enum class ISM330DHCX_Regs
 {
   FUNC_CFG_ACCESS           = 0x01,
@@ -207,4 +208,19 @@ enum class ISM330DHCX_Regs
   SLAVE3_CONFIG             = 0x20,
   DATAWRITE_SLV0            = 0x21,
   STATUS_MASTER             = 0x22,
+};
+
+
+//-----------------------------------------------------------------------------
+// !\brief ISM330DHCX Class Definition
+//-----------------------------------------------------------------------------
+class ISM330DHCX
+{
+  private:
+  public:
+    HAL_StatusTypeDef  Init(void);
+    SPI_HandleTypeDef* GetHandle(void);
+    HAL_StatusTypeDef  GetChipID(void);
+    HAL_StatusTypeDef  CS_Assert(void);
+    HAL_StatusTypeDef  CS_Deassert(void);
 };

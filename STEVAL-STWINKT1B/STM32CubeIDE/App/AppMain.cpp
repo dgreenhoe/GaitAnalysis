@@ -8,8 +8,12 @@
 #include "main.h"
 //#include "io.h"
 #include "LEDs.hpp"
-#include "menu.hpp"
 #include "ISM330DHCX.hpp"
+#include "menu.hpp"
+#include "AppMain.hpp"
+//#include "AppMain.h"
+
+AppMain appmain;
 
 //-----------------------------------------------------------------------------
 //! \brief App Main
@@ -18,33 +22,38 @@
 extern "C" void AppMain(void);
 extern "C" bool GetOneByte( uint8_t* OneByte );
 
-void Splash(void);
-
 //-----------------------------------------------------------------------------
 //! \brief App Main
 //-----------------------------------------------------------------------------
 void AppMain(void)
 {
   uint8_t OneByte;
-  Splash();
-  ISM330DHCX_Init();
+  appmain.SystemInit();
+  appmain.AppMainLoop();
+}
+
+//-----------------------------------------------------------------------------
+//! \brief App Main
+//-----------------------------------------------------------------------------
+void AppMain::SystemInit(void)
+{
+  ISM330DHCX::Init();
+}
+
+//-----------------------------------------------------------------------------
+//! \brief App Main
+//-----------------------------------------------------------------------------
+void AppMain::AppMainLoop(void)
+{
+  uint8_t OneByte;
+  UserInterface::Splash();
+
   while(1)
   {
     bool ByteReceived = GetOneByte( &OneByte );
     if( ByteReceived )
-      Menu_Processing( OneByte );
-    LED_StateMachine();
+      UserInterface::Processing( OneByte );
+    LEDs::StateMachine();
   }
-}
-
-//-----------------------------------------------------------------------------
-//! \brief Splash Screen
-//-----------------------------------------------------------------------------
-void Splash(void)
-{
-  printf( " ===========================================\r\n"  );
-  printf( "| Gait Analysis                             |\r\n" );
-  printf( "| https://github.com/dgreenhoe/GaitAnalysis |\r\n" );
-  printf( " ===========================================\r\n"  );
 }
 

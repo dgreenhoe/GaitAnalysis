@@ -1,8 +1,14 @@
 //=============================================================================
 //! \author Daniel J. Greenhoe
-//! \file   AppMain.h
-//!         Main application processing header to be included in main.c
+//! \file   AppMain.hpp
+//!         Main application processing header
 //=============================================================================
 
-void AppMain(void);
+class AppMain : public UserInterface
+{
+  private:
+  public:
+    void SystemInit(void);
+    void AppMainLoop(void);
+};
 
