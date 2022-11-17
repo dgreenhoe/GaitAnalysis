@@ -4,4 +4,5 @@
 //!         Main application processing header
 //=============================================================================
 void AppMain(void);
+void Splash(void);
 

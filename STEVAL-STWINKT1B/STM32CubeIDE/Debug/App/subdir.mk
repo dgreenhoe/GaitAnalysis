@@ -9,6 +9,7 @@ C_SRCS += \
 
 CPP_SRCS += \
 ../App/AppMain.cpp \
+../App/ISM330DHCX.cpp \
 ../App/LEDs.cpp \
 ../App/menu.cpp 
 
@@ -17,12 +18,14 @@ C_DEPS += \
 
 OBJS += \
 ./App/AppMain.o \
+./App/ISM330DHCX.o \
 ./App/LEDs.o \
 ./App/io.o \
 ./App/menu.o 
 
 CPP_DEPS += \
 ./App/AppMain.d \
+./App/ISM330DHCX.d \
 ./App/LEDs.d \
 ./App/menu.d 
 
@@ -36,7 +39,7 @@ App/%.o: ../App/%.c App/subdir.mk
 clean: clean-App
 
 clean-App:
-	-$(RM) ./App/AppMain.d ./App/AppMain.o ./App/LEDs.d ./App/LEDs.o ./App/io.d ./App/io.o ./App/menu.d ./App/menu.o
+	-$(RM) ./App/AppMain.d ./App/AppMain.o ./App/ISM330DHCX.d ./App/ISM330DHCX.o ./App/LEDs.d ./App/LEDs.o ./App/io.d ./App/io.o ./App/menu.d ./App/menu.o
 
 .PHONY: clean-App
 

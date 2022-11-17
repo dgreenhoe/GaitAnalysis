@@ -1,5 +1,5 @@
 //=============================================================================
-//! \file menu.c
+//! \file menu.cpp
 //!       Menu configuration
 //! \author Daniel J. Greenhoe
 //=============================================================================
@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include "main.h"
 #include "LEDs.hpp"
+#include "ISM330DHCX.hpp"
 #include "menu.hpp"
 
 static char* Number_to_BinaryString( const int Number, char *buf );
@@ -18,24 +19,25 @@ void CDC_Receive_Clear(void);
 int Menu_Options(void)
 {
   printf("Menu Options:\r\n");
+  printf(" %-30s ", "m: This menu"         );  printf("| %-30s\r\n", "M: This menu"               );
+  printf(" %-30s ", "1: ISM330DHCX Init"   );  printf("| %-30s\r\n", "2: ISM330DHCX Chip ID\r\n"  );
   return 0;
 }
-extern uint8_t NewByte, NewByte2;
+
 //-----------------------------------------------------------------------------
 //! \brief Display menu options
 //-----------------------------------------------------------------------------
 int Menu_Processing( const uint8_t oneChar )
 {
-  switch( NewByte2 )
+  switch( oneChar )
   {
-    case 0: break;
-    case 'M':                                    Menu_Options()  ;  break;
-  //  default :  printf("!!!!Char = %02X = %d ('%c')\r\n", oneChar, oneChar, oneChar ); break;
-    default :  printf("!!!!Char = %02X = %d ('%c')\r\n", NewByte2, NewByte2, NewByte2 ); break;
-
+    case  0 :                         break;
+    case 'm':
+    case 'M': Menu_Options()   ;      break;
+    case '1': ISM330DHCX_Init();      break;
+    case '2': ISM330DHCX_GetChipID(); break;
+    default : printf("oneChar = %02X = %d ('%c')\r\n", oneChar, oneChar, oneChar ); 
   }
-//CDC_Receive_Clear();
-NewByte2=0;
   return 0;
 }
 

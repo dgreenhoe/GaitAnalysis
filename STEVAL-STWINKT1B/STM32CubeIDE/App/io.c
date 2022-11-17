@@ -37,36 +37,15 @@ int _write(int file, char *ptr, int len)
   return len;
 }
 
-uint8_t UsbRxBuf[16];
-uint8_t NewByte, NewByte2;
+uint8_t NewByte;
 //-----------------------------------------------------------------------------
 //! \brief Non-blocking get one character
 // \ref https://www.openstm32.org/forumthread5015
 //-----------------------------------------------------------------------------
 bool GetOneByte( uint8_t* OneByte )
 {
-  bool ByteReceived = false;
-  uint32_t Len = 1;
-  CDC_Receive( OneByte, &Len );
-  //printf("CDC OneByte=%02X ('%c') Len=%ld Rx=%d\r\n", *OneByte, *OneByte, Len, ByteReceived);
+  bool ByteReceived = (NewByte==0)? false : true;
+  *OneByte = NewByte;
+  NewByte = 0;
   return ByteReceived;
 }
-
-int8_t CDC_Receive(uint8_t* Buf, uint32_t *Len)
-{
-  USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &UsbRxBuf[0]);
-  USBD_CDC_ReceivePacket(&hUsbDeviceFS);
-  USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef *)(hUsbDeviceFS.pClassData);
-  NewByte = hcdc->RxBuffer[0]; 
-  Buf[0] = hcdc->RxBuffer[0];
-//printf("Rx=%02x\r\n", hcdc->RxBuffer[0]);
-  return (USBD_OK);
-}
-
-//void CDC_Receive_Clear(void)
-//{
-//  USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &UsbRxBuf[0]);
-//  USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef *)(hUsbDeviceFS.pClassData);
-//  hcdc->RxBuffer[0] = 0;
-//  return (USBD_OK);
-//}

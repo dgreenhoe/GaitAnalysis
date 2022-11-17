@@ -1,4 +1,5 @@
 "./App/AppMain.o"
+"./App/ISM330DHCX.o"
 "./App/LEDs.o"
 "./App/io.o"
 "./App/menu.o"

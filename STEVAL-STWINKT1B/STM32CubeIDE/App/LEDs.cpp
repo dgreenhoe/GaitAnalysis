@@ -42,7 +42,7 @@ void LED_StateMachine(void)
       LED_Org_Off();
       LED_State = LED_States::LED_Grn0_Org0_Hold;
       TickStart = TickNow;
-      printf( "Tick = %6ld ms\r\n", TickNow );
+    //printf( "Tick = %6ld ms\r\n", TickNow );
       break;
     case LED_States::LED_Grn0_Org0_Hold:
       if( TickNow - TickStart >= 500 )
