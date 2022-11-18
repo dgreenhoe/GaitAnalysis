@@ -26,13 +26,23 @@ int UserInterface::Options(void)
 //-----------------------------------------------------------------------------
 int UserInterface::Processing( const uint8_t oneChar )
 {
+  uint8_t ChipID = 0x00;
+  char    Buf[16];
   switch( oneChar )
   {
     case 'm':
-    case 'M': Options();               break;
-    case '1': ISM330DHCX::Init();      break;
-    case '2': ISM330DHCX::GetChipID(); break;
-    case  0 :                          break;
+    case 'M': 
+      Splash();
+      Options();
+      break;
+    case '1': ISM330DHCX::Init();      
+      break;
+    case '2': 
+      ISM330DHCX::GetChipID( &ChipID ); 
+      printf( "Chip ID = 0x%02X = %sb\r\n", ChipID, Number_to_BinaryString( (const int)ChipID, Buf ) );
+      break;
+    case  0 :                          
+      break;
     default : printf("oneChar = %02X = %d ('%c')\r\n", oneChar, oneChar, oneChar ); 
   }
   return 0;

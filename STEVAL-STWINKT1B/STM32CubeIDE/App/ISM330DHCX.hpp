@@ -217,10 +217,10 @@ enum class ISM330DHCX_Regs
 class ISM330DHCX
 {
   private:
-  public:
-    HAL_StatusTypeDef  Init(void);
     SPI_HandleTypeDef* GetHandle(void);
-    HAL_StatusTypeDef  GetChipID(void);
     HAL_StatusTypeDef  CS_Assert(void);
     HAL_StatusTypeDef  CS_Deassert(void);
+  public:
+    HAL_StatusTypeDef  Init(void);
+    HAL_StatusTypeDef  GetChipID( uint8_t* ChipID );
 };
