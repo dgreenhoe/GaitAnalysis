@@ -26,10 +26,26 @@ SPI_HandleTypeDef* ISM330DHCX::GetHandle(void)
 //-----------------------------------------------------------------------------
 HAL_StatusTypeDef ISM330DHCX::Init(void)
 {
-  HAL_StatusTypeDef const Status = HAL_OK;
+  SPI_HandleTypeDef* const Handle = GetHandle();
+  HAL_StatusTypeDef  const Status = HAL_OK;
   CS_Deassert();
   HAL_GPIO_WritePin( GPIOF, GPIO_PIN_5,  GPIO_PIN_SET );   // Deassert CS_ADWB of IIS3DWB Vibrometer
   HAL_GPIO_WritePin( GPIOD, GPIO_PIN_15, GPIO_PIN_SET );   // Deassert CS_DH   of IIS2DH 3-Axis Accel
+  Handle->Instance               = SPI3;
+  Handle->Init.Mode              = SPI_MODE_MASTER;
+  Handle->Init.Direction         = SPI_DIRECTION_2LINES;
+  Handle->Init.DataSize          = SPI_DATASIZE_8BIT;
+  Handle->Init.CLKPolarity       = SPI_POLARITY_HIGH;
+  Handle->Init.CLKPhase          = SPI_PHASE_2EDGE;
+  Handle->Init.NSS               = SPI_NSS_SOFT;
+  Handle->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+  Handle->Init.FirstBit          = SPI_FIRSTBIT_MSB;
+  Handle->Init.TIMode            = SPI_TIMODE_DISABLE;
+  Handle->Init.CRCCalculation    = SPI_CRCCALCULATION_DISABLE;
+  Handle->Init.CRCPolynomial     = 7;
+  Handle->Init.CRCLength         = SPI_CRC_LENGTH_DATASIZE;
+  Handle->Init.NSSPMode          = SPI_NSS_PULSE_DISABLE;
+
   return Status;
 }
 
