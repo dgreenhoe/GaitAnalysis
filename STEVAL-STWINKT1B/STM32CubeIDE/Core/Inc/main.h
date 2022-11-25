@@ -65,8 +65,6 @@ void Error_Handler(void);
 #define PB9_GPIO_Port GPIOB
 #define BOOT0_PE0H3_Pin GPIO_PIN_3
 #define BOOT0_PE0H3_GPIO_Port GPIOH
-#define SPI3_MISO_Pin GPIO_PIN_4
-#define SPI3_MISO_GPIO_Port GPIOB
 #define SPI2_MISO_Pin GPIO_PIN_3
 #define SPI2_MISO_GPIO_Port GPIOD
 #define SDMMC_D3_Pin GPIO_PIN_11
@@ -77,10 +75,6 @@ void Error_Handler(void);
 #define BLE_TEST9_GPIO_Port GPIOE
 #define PB8_Pin GPIO_PIN_8
 #define PB8_GPIO_Port GPIOB
-#define SPI3_MOSI_Pin GPIO_PIN_5
-#define SPI3_MOSI_GPIO_Port GPIOB
-#define SPI3_CLK_Pin GPIO_PIN_3
-#define SPI3_CLK_GPIO_Port GPIOB
 #define USART2_RX_Pin GPIO_PIN_6
 #define USART2_RX_GPIO_Port GPIOD
 #define SPI2_CLK_Pin GPIO_PIN_1

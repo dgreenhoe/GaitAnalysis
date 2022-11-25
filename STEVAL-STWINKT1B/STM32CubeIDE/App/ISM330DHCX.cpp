@@ -10,7 +10,7 @@
 #include "LEDs.hpp"
 #include "ISM330DHCX.hpp"
 
-extern SPI_HandleTypeDef hspi3;
+extern SPI_HandleTypeDef hspi3; //hspi3;
 
 //-----------------------------------------------------------------------------
 // !\brief ISM330DHCX Init
@@ -28,8 +28,8 @@ HAL_StatusTypeDef ISM330DHCX::Init(void)
 {
   HAL_StatusTypeDef const Status = HAL_OK;
   CS_Deassert();
-  HAL_GPIO_WritePin(GPIOF,  5, GPIO_PIN_SET );   // Deassert CS_ADWB of IIS3DWB Vibrometer
-  HAL_GPIO_WritePin(GPIOD, 15, GPIO_PIN_SET );   // Deassert CS_DH   of IIS2DH 3-Axis Accel
+  HAL_GPIO_WritePin( GPIOF, GPIO_PIN_5,  GPIO_PIN_SET );   // Deassert CS_ADWB of IIS3DWB Vibrometer
+  HAL_GPIO_WritePin( GPIOD, GPIO_PIN_15, GPIO_PIN_SET );   // Deassert CS_DH   of IIS2DH 3-Axis Accel
   return Status;
 }
 
@@ -39,9 +39,9 @@ HAL_StatusTypeDef ISM330DHCX::Init(void)
 HAL_StatusTypeDef ISM330DHCX::CS_Assert(void)
 {
   HAL_StatusTypeDef const Status = HAL_OK;
-  HAL_GPIO_WritePin(GPIOF,  5, GPIO_PIN_SET );   // Deassert CS_ADWB of IIS3DWB Vibrometer
-  HAL_GPIO_WritePin(GPIOD, 15, GPIO_PIN_SET );   // Deassert CS_DH   of IIS2DH 3-Axis Accel
-  HAL_GPIO_WritePin(GPIOF, 13, GPIO_PIN_RESET ); // Assert   CS_DHC  of ISM330DHCX 6-Axis Accel
+  HAL_GPIO_WritePin( GPIOF, GPIO_PIN_5,  GPIO_PIN_SET   ); // Deassert CS_ADWB of IIS3DWB Vibrometer
+  HAL_GPIO_WritePin( GPIOD, GPIO_PIN_15, GPIO_PIN_SET   ); // Deassert CS_DH   of IIS2DH 3-Axis Accel
+  HAL_GPIO_WritePin( GPIOF, GPIO_PIN_13, GPIO_PIN_RESET ); // Assert   CS_DHC  of ISM330DHCX 6-Axis Accel
   HAL_Delay(10);
   return Status;
 }
@@ -53,7 +53,7 @@ HAL_StatusTypeDef ISM330DHCX::CS_Deassert(void)
 {
   HAL_StatusTypeDef const Status = HAL_OK;
   HAL_Delay(10);
-  HAL_GPIO_WritePin(GPIOF, 13, GPIO_PIN_SET );
+  HAL_GPIO_WritePin( GPIOF, GPIO_PIN_13, GPIO_PIN_SET );
   return Status;
 }
 
@@ -70,9 +70,9 @@ HAL_StatusTypeDef ISM330DHCX::GetChipID( uint8_t* ChipID )
   uint16_t           const Size      = sizeof( TxData ) / sizeof( uint8_t );
   uint32_t           const Timeout   = 1000;
   HAL_StatusTypeDef  const Status0   = ISM330DHCX::CS_Assert();
-  HAL_StatusTypeDef  const Status    = HAL_SPI_TransmitReceive( Handle, TxData, RxData, 2, Timeout);
-  //HAL_StatusTypeDef  const Status    = HAL_SPI_Transmit( Handle, TxData, 1, Timeout );
-  //HAL_StatusTypeDef  const Status2   = HAL_SPI_Receive(  Handle, RxData, 1, Timeout );
+  //HAL_StatusTypeDef  const Status    = HAL_SPI_TransmitReceive( Handle, TxData, RxData, 2, Timeout);
+  HAL_StatusTypeDef  const Status    = HAL_SPI_Transmit( Handle, TxData, 1, Timeout );
+  HAL_StatusTypeDef  const Status2   = HAL_SPI_Receive(  Handle, RxData, 1, Timeout );
   HAL_StatusTypeDef  const Status3   = ISM330DHCX::CS_Deassert();
   *ChipID = RxData[0];
   //printf( "Chip ID from 0x%02X = 0x%02X 0x%02X\r\n", TxData[0], RxData[0], RxData[1] );

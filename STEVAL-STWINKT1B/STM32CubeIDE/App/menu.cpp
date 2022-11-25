@@ -31,19 +31,27 @@ int UserInterface::Processing( const uint8_t oneChar )
   switch( oneChar )
   {
     case 'm':
-    case 'M': 
+    case 'M':
       Splash();
       Options();
       break;
-    case '1': ISM330DHCX::Init();      
+    case '1': ISM330DHCX::Init();
       break;
-    case '2': 
-      ISM330DHCX::GetChipID( &ChipID ); 
+    case '2':
+      ISM330DHCX::GetChipID( &ChipID );
       printf( "Chip ID = 0x%02X = %sb\r\n", ChipID, Number_to_BinaryString( (const int)ChipID, Buf ) );
       break;
-    case  0 :                          
+    case  0 :
       break;
-    default : printf("oneChar = %02X = %d ('%c')\r\n", oneChar, oneChar, oneChar ); 
+    case '3': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET );  printf( "PB3 Lo CLK\r\n"  ); break;
+    case '#': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET   );  printf( "PB3 Hi CLK\r\n"  ); break;
+    case '4': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET );  printf( "PB4 Lo MISO\r\n" ); break;
+    case '$': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET   );  printf( "PB4 Hi MISO\r\n" ); break;
+    case '5': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET );  printf( "PB5 Lo MOSI\r\n" ); break;
+    case '%': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET   );  printf( "PB5 Hi MOSI\r\n" ); break;
+    case 'x': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET );  break;
+    case 'y': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET );  break;
+    default : printf("oneChar = %02X = %d ('%c')\r\n", oneChar, oneChar, oneChar );
   }
   return 0;
 }
