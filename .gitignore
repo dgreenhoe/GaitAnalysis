@@ -6,5 +6,6 @@
 *.su
 *.bin
 *.list
+*.bak
 STEVAL-STWINKT1B/STM32CubeIDE/html/
 STEVAL-STWINKT1B/STM32CubeIDE/latex/
