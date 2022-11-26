@@ -27,7 +27,6 @@ extern "C" bool GetOneByte( uint8_t* OneByte );
 //-----------------------------------------------------------------------------
 void AppMain(void)
 {
-  uint8_t OneByte;
   appmain.SystemInit();
   appmain.AppMainLoop();
 }

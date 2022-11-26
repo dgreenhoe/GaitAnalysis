@@ -74,21 +74,21 @@ HAL_StatusTypeDef spi::Init(void)
 //-----------------------------------------------------------------------------
 // !\brief ISM330DHCX Init
 //-----------------------------------------------------------------------------
-HAL_StatusTypeDef spi::TxByte( uint8_t const Addr, uint8_t const OneByte )
-{
-  SPI_HandleTypeDef* const Handle    = GetHandle();
-  uint8_t            const ReadBit   = 0x01 << 7;
-  uint8_t            const ReadAddr  = ReadBit | Addr;
-  uint8_t                  TxData[]  = { ReadAddr };
-  uint8_t                  RxData[]  = { 0x00 };
-  uint16_t           const TxSize    = sizeof( TxData ) / sizeof( uint8_t );
-  uint16_t           const RxSize    = sizeof( RxData ) / sizeof( uint8_t );
-  uint32_t           const Timeout   = 1000;
-  HAL_StatusTypeDef  const Status0   = CS_Assert();
-  HAL_StatusTypeDef  const Status1   = HAL_SPI_Transmit( Handle, &TxData[0], TxSize, Timeout );
-
-  return Status1;
-}
+//HAL_StatusTypeDef spi::TxByte( uint8_t const Register, uint8_t const OneByte )
+//{
+//  SPI_HandleTypeDef* const Handle    = GetHandle();
+//  uint8_t            const ReadBit   = 0x01 << 7;
+//  uint8_t            const ReadAddr  = ReadBit | Register;
+//  uint8_t                  TxData[]  = { ReadAddr };
+//  uint8_t                  RxData[]  = { 0x00 };
+//  uint16_t           const TxSize    = sizeof( TxData ) / sizeof( uint8_t );
+//  uint16_t           const RxSize    = sizeof( RxData ) / sizeof( uint8_t );
+//  uint32_t           const Timeout   = 1000;
+//  HAL_StatusTypeDef  const Status0   = CS_Assert();
+//  HAL_StatusTypeDef  const Status1   = HAL_SPI_Transmit( Handle, &TxData[0], TxSize, Timeout );
+//
+//  return Status1;
+//}
 
 //-----------------------------------------------------------------------------
 // !\brief ISM330DHCX Init
@@ -115,4 +115,51 @@ HAL_StatusTypeDef spi::ReadOneByte( int const Device, uint8_t const Register, ui
   }
   *RxByte = RxData[0];
   return Status2;
+}
+
+//-----------------------------------------------------------------------------
+// !\brief ISM330DHCX Init
+//-----------------------------------------------------------------------------
+HAL_StatusTypeDef spi::ReadNBytes( int const Device, uint8_t const Register, uint8_t const RxSize, uint8_t* RxData )
+{
+  switch( Device )
+  {
+    case SPI_ISM330DHCX: CS_Assert(); break;
+  }
+  SPI_HandleTypeDef* const Handle    = GetHandle();
+  uint8_t            const ReadBit   = 0x01 << 7;
+  uint8_t            const ReadAddr  = ReadBit | Register;
+  uint8_t                  TxData[]  = { ReadAddr };
+  uint16_t           const TxSize    = sizeof( TxData ) / sizeof( uint8_t );
+  uint32_t           const Timeout   = 1000;
+  HAL_StatusTypeDef  const Status1   = HAL_SPI_Transmit( Handle, &TxData[0], TxSize, Timeout );
+  HAL_StatusTypeDef  const Status2   = HAL_SPI_Receive(  Handle, &RxData[0], RxSize, Timeout );
+  switch( Device )
+  {
+    case SPI_ISM330DHCX: CS_Deassert(); break;
+  }
+  return Status2;
+}
+
+//-----------------------------------------------------------------------------
+// !\brief ISM330DHCX Init
+//-----------------------------------------------------------------------------
+HAL_StatusTypeDef spi::WriteOneByte( int const Device, uint8_t const Register, uint8_t TxByte )
+{
+  switch( Device )
+  {
+    case SPI_ISM330DHCX: CS_Assert(); break;
+  }
+  SPI_HandleTypeDef* const Handle    = GetHandle();
+  uint8_t            const WriteBit  = 0x00 << 7;
+  uint8_t            const WriteAddr = WriteBit | Register;
+  uint8_t                  TxData[]  = { WriteAddr, TxByte };
+  uint16_t           const TxSize    = sizeof( TxData ) / sizeof( uint8_t );
+  uint32_t           const Timeout   = 1000;
+  HAL_StatusTypeDef  const Status    = HAL_SPI_Transmit( Handle, &TxData[0], TxSize, Timeout );
+  switch( Device )
+  {
+    case SPI_ISM330DHCX: CS_Deassert(); break;
+  }
+  return Status;
 }

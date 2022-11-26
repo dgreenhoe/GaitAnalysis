@@ -27,7 +27,7 @@ int UserInterface::Options(void)
 //-----------------------------------------------------------------------------
 int UserInterface::Processing( const uint8_t oneChar )
 {
-  uint8_t ChipID = 0x00;
+  uint8_t ChipID = 0x00, Temp;
   char    Buf[16];
   switch( oneChar )
   {
@@ -44,6 +44,7 @@ int UserInterface::Processing( const uint8_t oneChar )
       break;
     case  0 :
       break;
+    case 't': ISM330DHCX::ReadTemp( &Temp ); break;
     case '3': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET );  printf( "PB3 Lo CLK\r\n"  ); break;
     case '#': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET   );  printf( "PB3 Hi CLK\r\n"  ); break;
     case '4': HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET );  printf( "PB4 Lo MISO\r\n" ); break;
