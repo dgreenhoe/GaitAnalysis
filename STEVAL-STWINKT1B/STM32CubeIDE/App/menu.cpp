@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include "main.h"
 #include "LEDs.hpp"
+#include "spi.hpp"
 #include "ISM330DHCX.hpp"
 #include "menu.hpp"
 

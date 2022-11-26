@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "main.h"
-//#include "io.h"
 #include "LEDs.hpp"
+#include "spi.hpp"
 #include "ISM330DHCX.hpp"
 #include "menu.hpp"
 #include "AppMain.hpp"
@@ -37,6 +37,7 @@ void AppMain(void)
 //-----------------------------------------------------------------------------
 void AppMain::SystemInit(void)
 {
+  spi::Init();
   ISM330DHCX::Init();
 }
 

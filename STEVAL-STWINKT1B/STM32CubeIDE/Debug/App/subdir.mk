@@ -11,7 +11,8 @@ CPP_SRCS += \
 ../App/AppMain.cpp \
 ../App/ISM330DHCX.cpp \
 ../App/LEDs.cpp \
-../App/menu.cpp 
+../App/menu.cpp \
+../App/spi.cpp 
 
 C_DEPS += \
 ./App/io.d 
@@ -21,13 +22,15 @@ OBJS += \
 ./App/ISM330DHCX.o \
 ./App/LEDs.o \
 ./App/io.o \
-./App/menu.o 
+./App/menu.o \
+./App/spi.o 
 
 CPP_DEPS += \
 ./App/AppMain.d \
 ./App/ISM330DHCX.d \
 ./App/LEDs.d \
-./App/menu.d 
+./App/menu.d \
+./App/spi.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -39,7 +42,7 @@ App/%.o: ../App/%.c App/subdir.mk
 clean: clean-App
 
 clean-App:
-	-$(RM) ./App/AppMain.d ./App/AppMain.o ./App/ISM330DHCX.d ./App/ISM330DHCX.o ./App/LEDs.d ./App/LEDs.o ./App/io.d ./App/io.o ./App/menu.d ./App/menu.o
+	-$(RM) ./App/AppMain.d ./App/AppMain.o ./App/ISM330DHCX.d ./App/ISM330DHCX.o ./App/LEDs.d ./App/LEDs.o ./App/io.d ./App/io.o ./App/menu.d ./App/menu.o ./App/spi.d ./App/spi.o
 
 .PHONY: clean-App
 
