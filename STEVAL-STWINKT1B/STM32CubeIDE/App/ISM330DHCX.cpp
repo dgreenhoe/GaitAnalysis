@@ -26,26 +26,25 @@ SPI_HandleTypeDef* ISM330DHCX::GetHandle(void)
 //-----------------------------------------------------------------------------
 HAL_StatusTypeDef ISM330DHCX::Init(void)
 {
-  SPI_HandleTypeDef* const Handle = GetHandle();
-  HAL_StatusTypeDef  const Status = HAL_OK;
   CS_Deassert();
   HAL_GPIO_WritePin( GPIOF, GPIO_PIN_5,  GPIO_PIN_SET );   // Deassert CS_ADWB of IIS3DWB Vibrometer
   HAL_GPIO_WritePin( GPIOD, GPIO_PIN_15, GPIO_PIN_SET );   // Deassert CS_DH   of IIS2DH 3-Axis Accel
-  Handle->Instance               = SPI3;
-  Handle->Init.Mode              = SPI_MODE_MASTER;
-  Handle->Init.Direction         = SPI_DIRECTION_2LINES;
-  Handle->Init.DataSize          = SPI_DATASIZE_8BIT;
-  Handle->Init.CLKPolarity       = SPI_POLARITY_HIGH;
-  Handle->Init.CLKPhase          = SPI_PHASE_2EDGE;
-  Handle->Init.NSS               = SPI_NSS_SOFT;
-  Handle->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
-  Handle->Init.FirstBit          = SPI_FIRSTBIT_MSB;
-  Handle->Init.TIMode            = SPI_TIMODE_DISABLE;
-  Handle->Init.CRCCalculation    = SPI_CRCCALCULATION_DISABLE;
-  Handle->Init.CRCPolynomial     = 7;
-  Handle->Init.CRCLength         = SPI_CRC_LENGTH_DATASIZE;
-  Handle->Init.NSSPMode          = SPI_NSS_PULSE_DISABLE;
-
+  SPI_HandleTypeDef* const Handle = GetHandle();
+  Handle->Instance                = SPI3;
+  Handle->Init.Mode               = SPI_MODE_MASTER;
+  Handle->Init.Direction          = SPI_DIRECTION_2LINES;
+  Handle->Init.DataSize           = SPI_DATASIZE_8BIT;
+  Handle->Init.CLKPolarity        = SPI_POLARITY_HIGH;
+  Handle->Init.CLKPhase           = SPI_PHASE_2EDGE;
+  Handle->Init.NSS                = SPI_NSS_SOFT;
+  Handle->Init.BaudRatePrescaler  = SPI_BAUDRATEPRESCALER_128;  // 2,4,8,16,32,64,128,256
+  Handle->Init.FirstBit           = SPI_FIRSTBIT_MSB;
+  Handle->Init.TIMode             = SPI_TIMODE_DISABLE;
+  Handle->Init.CRCCalculation     = SPI_CRCCALCULATION_DISABLE;
+  Handle->Init.CRCPolynomial      = 7;
+  Handle->Init.CRCLength          = SPI_CRC_LENGTH_DATASIZE;
+  Handle->Init.NSSPMode           = SPI_NSS_PULSE_DISABLE;
+  HAL_StatusTypeDef const Status  = HAL_SPI_Init( Handle );
   return Status;
 }
 
@@ -74,24 +73,26 @@ HAL_StatusTypeDef ISM330DHCX::CS_Deassert(void)
 }
 
 //-----------------------------------------------------------------------------
-// !\brief ISM330DHCX Init
+// !\brief ISM330DHCX Get Chip ID
 //-----------------------------------------------------------------------------
 HAL_StatusTypeDef ISM330DHCX::GetChipID( uint8_t* ChipID )
 {
   SPI_HandleTypeDef* const Handle    = ISM330DHCX::GetHandle();
   uint8_t            const Addr      = static_cast<uint8_t>( ISM330DHCX_Regs::WHO_AM_I );
-  uint8_t            const ReadAddr  = 0x80 | Addr;
-  uint8_t                  TxData[1] = { ReadAddr };
-  uint8_t                  RxData[2] = { 0x00, 0x00 };
-  uint16_t           const Size      = sizeof( TxData ) / sizeof( uint8_t );
+  uint8_t            const ReadBit   = 0x01 << 7;
+  uint8_t            const ReadAddr  = ReadBit | Addr;
+  uint8_t                  TxData[]  = { ReadAddr };
+  uint8_t                  RxData[]  = { 0x00 };
+  uint16_t           const TxSize    = sizeof( TxData ) / sizeof( uint8_t );
+  uint16_t           const RxSize    = sizeof( RxData ) / sizeof( uint8_t );
   uint32_t           const Timeout   = 1000;
   HAL_StatusTypeDef  const Status0   = ISM330DHCX::CS_Assert();
-  //HAL_StatusTypeDef  const Status    = HAL_SPI_TransmitReceive( Handle, TxData, RxData, 2, Timeout);
-  HAL_StatusTypeDef  const Status    = HAL_SPI_Transmit( Handle, TxData, 1, Timeout );
-  HAL_StatusTypeDef  const Status2   = HAL_SPI_Receive(  Handle, RxData, 1, Timeout );
+  HAL_StatusTypeDef  const Status1   = HAL_SPI_Transmit( Handle, &TxData[0], TxSize, Timeout );
+  HAL_StatusTypeDef  const Status2   = HAL_SPI_Receive(  Handle, &RxData[0], RxSize, Timeout );
   HAL_StatusTypeDef  const Status3   = ISM330DHCX::CS_Deassert();
-  *ChipID = RxData[0];
-  //printf( "Chip ID from 0x%02X = 0x%02X 0x%02X\r\n", TxData[0], RxData[0], RxData[1] );
+  uint8_t            const chipID    = RxData[0];
+  HAL_StatusTypeDef  const Status    = ( chipID == 0x6B )? HAL_OK : HAL_ERROR;
+  *ChipID = chipID;
   return Status;
 }
 
