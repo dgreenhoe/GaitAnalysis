@@ -9,6 +9,7 @@
 #include "LEDs.hpp"
 #include "spi.hpp"
 #include "ISM330DHCX.hpp"
+#include "TestISM330DHCX.hpp"
 #include "menu.hpp"
 #include "AppMain.hpp"
 //#include "AppMain.h"

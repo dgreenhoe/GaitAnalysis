@@ -4,7 +4,7 @@
 //! \author Daniel J. Greenhoe
 //=============================================================================
 
-class UserInterface : public ISM330DHCX, public LEDs
+class UserInterface : public TestISM330, public LEDs
 {
   private:
     char* Number_to_BinaryString( const int Number, char *buf );

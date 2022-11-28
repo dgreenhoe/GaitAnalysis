@@ -118,7 +118,7 @@ HAL_StatusTypeDef spi::ReadOneByte( int const Device, uint8_t const Register, ui
 }
 
 //-----------------------------------------------------------------------------
-// !\brief ISM330DHCX Init
+// !\brief Read N Bytes
 //-----------------------------------------------------------------------------
 HAL_StatusTypeDef spi::ReadNBytes( int const Device, uint8_t const Register, uint8_t const RxSize, uint8_t* RxData )
 {
@@ -132,13 +132,20 @@ HAL_StatusTypeDef spi::ReadNBytes( int const Device, uint8_t const Register, uin
   uint8_t                  TxData[]  = { ReadAddr };
   uint16_t           const TxSize    = sizeof( TxData ) / sizeof( uint8_t );
   uint32_t           const Timeout   = 1000;
-  HAL_StatusTypeDef  const Status1   = HAL_SPI_Transmit( Handle, &TxData[0], TxSize, Timeout );
-  HAL_StatusTypeDef  const Status2   = HAL_SPI_Receive(  Handle, &RxData[0], RxSize, Timeout );
+  //HAL_StatusTypeDef  const Status1   = HAL_SPI_Transmit( Handle, &TxData[0], TxSize, Timeout );
+  //HAL_StatusTypeDef  const Status2   = HAL_SPI_Receive(  Handle, &RxData[0], RxSize, Timeout );
+  for( uint8_t n=0; n<RxSize; n++ )
+  {
+    TxData[0] = n | 0x80;
+    HAL_SPI_Transmit( Handle, &TxData[0], TxSize, Timeout );
+    HAL_SPI_Receive(  Handle, &RxData[n], 1, Timeout );
+  //printf( "TxData[0]=%02X\r\n", TxData[0] );
+  }
   switch( Device )
   {
     case SPI_ISM330DHCX: CS_Deassert(); break;
   }
-  return Status2;
+  return HAL_OK;
 }
 
 //-----------------------------------------------------------------------------

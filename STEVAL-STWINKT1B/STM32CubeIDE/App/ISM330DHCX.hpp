@@ -207,7 +207,7 @@ enum // class ISM330DHCX_Regs
   REG_SLV3_SUBADD               = 0x1F,
   REG_SLAVE3_CONFIG             = 0x20,
   REG_DATAWRITE_SLV0            = 0x21,
-  REG_STATUS_MASTER             = 0x22,
+  REG_STATUS_MASTER             = 0x22
 };
 
 enum
@@ -223,6 +223,9 @@ class ISM330DHCX : public spi
 {
   private:
   public:
+    HAL_StatusTypeDef ReadOneByte( uint8_t const Register, uint8_t* RegVal );
+    HAL_StatusTypeDef WriteOneByte( uint8_t const Register, uint8_t RegVal );
+    HAL_StatusTypeDef ReadNBytes( uint8_t const Register, uint8_t const NumBytes, uint8_t* RegBuf );
     HAL_StatusTypeDef Init(void);
     HAL_StatusTypeDef SoftReset( void );
     HAL_StatusTypeDef GetChipID( uint8_t* ChipID );
